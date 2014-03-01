@@ -543,7 +543,7 @@ var initContext = function(editor) {
 var CstyleBehaviour = function() {
     this.add("braces", "insertion", function(state, action, editor, session, text) {
         var cursor = editor.getCursorPosition();
-        var line = session.doc.getLine(cursor.row);
+       // var line = session.doc.getLine(cursor.row);
         if (text == '{') {
             initContext(editor);
             var selection = editor.getSelectionRange();

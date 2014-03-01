@@ -3,31 +3,50 @@
 	<head>
 		<title> Java Fiddle </title> 
 		<meta charset="UTF-8" />
-		<meta name="description" content="This is a practice file for day 6." />
-		<link href="style.css" rel="stylesheet" type="text/css">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<link href="style.css" type="text/css" rel="stylesheet">
 	</head>
 <body>
 
+<!-- BEGIN HEADER -->
+	<header> </header>
+<!-- END HEADER -->
 
-<!-- Input Area -->
-	<form>
-		<textarea id="java_input_stuff" rows="25" cols="100" attribute="wrap">
-//CODE GOES HERE
-		</textarea>
-		<fieldset>
-		<div id="Output">
-		<div>
-		</fieldset>
-	</form>
-	<form>
-		<input id="compile" type="submit" value="Compile"/> 
-	</form>
-	
-	<form action="/auth/logout" method="get">
-		<input id="cancel" type="submit" value="Cancel" />
-	</form>
+<!-- BEGIN Title of Page -->
+	<h1> Java Fiddle  </h1>
+<!-- End of Title Page -->
+
+<pre id="editor">
+public class newProgram {
     
-<!-- END of Input Area -->
+    public static void main (String [] args){
+    
+    }
+    
+}
+</pre>
+
+		<div id="Output">
+		</div>
+
+		<input id="compile" type="button" onClick="writeComment()" value="Compile" \>
+		<input type="button" id="cancel" value="Cancel" \>
+    
+<script src="src/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/github");
+    editor.getSession().setMode("ace/mode/java");
+</script>
+<script>
+function writeComment(e) {
+    var code = editor.getValue();
+    document.getElementById('Output').innerHTML = code;
+    e.preventDefault();
+    return false;
+}
+</script>
 
 </body>
+
 </html>
