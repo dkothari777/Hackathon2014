@@ -1,3 +1,4 @@
 *.class
 *.comp.out
 *.out.txt
+tmp/*
