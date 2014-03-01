@@ -65,11 +65,14 @@ class AuthLoginHandler(BaseHandler):
         h.update(str(random.random()))
         self.sessid = h.hexdigest()
         self.set_secure_cookie("sessid", self.sessid)
+        self.redirect("/")
 
 
 class AuthLogoutHandler(BaseHandler):
     def get(self):
         self.clear_secure_cookie()
+        subprocess.call(['rm','-rf',sessid + '.java'])
+        subprocess.call(['rm','-rf',sessid + '.class'])
 
 def main():
     testServer = tornado.web.Application(
