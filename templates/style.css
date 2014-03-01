@@ -1,83 +1,83 @@
 @import url('http://fonts.googleapis.com/css?family=Open+Sans');
 
 html, body {
-	background-color:#F3F3F3;
-	height: 100%;
-	width: 100%;
-	font-family:"Times New Roman", Times, serif;
+    background-color:#F3F3F3;
+    height: 100%;
+    width: 100%;
+    font-family:"Times New Roman", Times, serif;
 }
 
 body a {
-	color:#336699;
-	text-decoration:none;
+    color:#336699;
+    text-decoration:none;
 }
 
 body a:hover {
-	text-decoration:underline
+    text-decoration:underline
 }
 
 header{
-	font-family:'Open Sans', sans-serif;
-	letter-spacing: -1px;
-	text-align: center;
+    font-family:'Open Sans', sans-serif;
+    letter-spacing: -1px;
+    text-align: center;
 }
 
 .ace_editor {
-	float:left;
-	border: 1px solid lightgray;
-	margin: auto;
-	height: 70%;
-	width: 50%;
-	margin-right: 15px;
+    float:left;
+    border: 1px solid lightgray;
+    margin: auto;
+    height: 70%;
+    width: 50%;
+    margin-right: 15px;
 }
 
 #Output {
-	float: left;
-	margin-left: 15px;
-	border: 1px solid black;
-	height: 70%;
-	width: 45%;
-	word-wrap: break-word;
-	overflow-y: auto;
+    float: left;
+    margin-left: 15px;
+    border: 1px solid black;
+    height: 70%;
+    width: 45%;
+    word-wrap: break-word;
+    overflow-y: auto;
 }
 
 #Output p{
-	padding-left:20px;
-	padding-right:15px;
-	word-wrap: break-word;
+    padding-left:20px;
+    padding-right:15px;
+    word-wrap: break-word;
 }
 
 
 #compile {
-	float:left;
-	margin-left: 0px;
-	margin-top: 10px;
-	height: 30px;
-	width: 100px;
-	background: none 0 0 #CCCCCC;
-    	border: medium none;
-    	cursor: pointer;
-    	text-transform: uppercase;
-	clear:both;
+    float:left;
+    margin-left: 0px;
+    margin-top: 10px;
+    height: 30px;
+    width: 100px;
+    background: none 0 0 #CCCCCC;
+        border: medium none;
+        cursor: pointer;
+        text-transform: uppercase;
+    clear:both;
 }
 
 #cancel{
-	margin-left: 15px;
-	margin-top: 10px;
-	float: left;
-	height: 30px;
-	width: 100px;
-	background: none 0 0 #CCCCCC;
-    	border: medium none;
+    margin-left: 15px;
+    margin-top: 10px;
+    float: left;
+    height: 30px;
+    width: 100px;
+    background: none 0 0 #CCCCCC;
+        border: medium none;
         cursor: pointer;
         text-transform: uppercase;
 }
 
 
 footer{ 
-	text-align:center;
-	margin:5px;
-	padding:5px;
-	clear:both;
+    text-align:center;
+    margin:5px;
+    padding:5px;
+    clear:both;
 }
 
