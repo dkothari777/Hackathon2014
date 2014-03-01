@@ -83,6 +83,10 @@
 
             function sendData() {
                 cookieData = getCookie( "plainssid" );
+                if(socket.readyState == 2 || socket.readyState == 3){
+                    alert("Web socket died :( Refreshing.");
+                    location.reload();
+                }
                 socket.send( cookieData + " " + editor.getValue() );
             }
 
