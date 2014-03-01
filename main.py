@@ -11,6 +11,7 @@ import os.path
 import sys
 
 from tornado.options import define, options, parse_command_line
+from StringIO import StringIO
 
 
 define("port", 8080)
@@ -36,26 +37,30 @@ class JavaHandler(tornado.websocket.WebSocketHandler):
     def open(self):
         print(("Java user connected"))
 
-    #Usage: command is an list
-    def call(self, command):
-        # Spaces cause errors!
-        proc = subprocess.Popen(command,
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-            stdin=subprocess.PIPE)
-        stdout, stderr = proc.communicate()
-        if proc.returncode:
-            raise ScriptException(proc.returncode, stdout, stderr, command)
-        return stdout, stderr
-
     def on_message(self, message):
-        self.sessid = message[0:40]
+        self.sessid = 'A' + message[0:40]
         message = message[40:]
-        f = open(self.sessid + '.java', 'w')
-        f.write(message)
-        print((self.call(['java', 'javaFiddleUtils', self.sessid])))
-        out, err = self.call(['java', self.sessid])
-        print (err)
-        self.write_message(out)
+        print((self.sessid))
+        print(message)
+        f = open('tmp/' + self.sessid + '.java', 'w+')
+        f.write("public class " + self.sessid + " {\npublic static void main( String[] args ) {\n"+message+"}\n}")
+        f.close()
+        print f
+        print "Running JavaFiddleUtils"
+        output = subprocess.PIPE
+        err = subprocess.PIPE
+        print 'cd ./tmp; javac '+self.sessid+'.java'
+        r1 = subprocess.check_output('cd ./tmp; javac '+self.sessid+'.java', shell=True)
+        r2 = subprocess.check_output('cd ./tmp; java '+self.sessid, shell=True)
+        print r2
+        self.write_message(r2)
+
+    def on_close(self):
+        print "User is done"
+        subprocess.call(['rm', '-rf',
+            "tmp/" + self.sessid + '.java'])
+        subprocess.call(['rm', '-rf',
+            "tmp/" + self.sessid + '.class'])
 
 
 class PyHandler(tornado.websocket.WebSocketHandler):
@@ -65,12 +70,7 @@ class PyHandler(tornado.websocket.WebSocketHandler):
     def on_message(self, message):
         self.sessid = message[0:40]
         message = message[40:]
-        out = None
-        err = None
-        sys.stdout = out
-        sys.stderr = err
-        exec(message)
-        print(err)
+        out = eval(message)
         self.write_message(out)
 
 
@@ -95,9 +95,17 @@ class AuthLoginHandler(BaseHandler):
 class AuthLogoutHandler(BaseHandler):
     def get(self):
         self.clear_all_cookies()
-        subprocess.call(['rm', '-rf', self.get_current_user() + '.java'])
-        subprocess.call(['rm', '-rf', self.get_current_user() + '.class'])
+        subprocess.call(['rm', '-rf',
+            "tmp/" + self.get_current_user() + '.java'])
+        subprocess.call(['rm', '-rf',
+            "tmp/" + self.get_current_user() + '.class'])
         self.write("logout successful")
+
+
+class ParseHandler(BaseHandler):
+
+    def get(self):
+        self.get
 
 
 def main():
@@ -107,7 +115,8 @@ def main():
             (r"/auth/login", AuthLoginHandler),
             (r"/auth/logout", AuthLogoutHandler),
             (r"/java", JavaHandler),
-            (r"/python", PyHandler)
+            (r"/python", PyHandler),
+            (r"/parse", ParseHandler)
         ],
         title="Scoring Server",
         template_path=os.path.join(os.path.dirname(__file__), "templates"),
