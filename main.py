@@ -21,7 +21,7 @@ class ScriptException(Exception):
         self.returncode = returncode
         self.stdout = stdout
         self.stderr = stderr
-        Exception.__init__('Error in script')
+        Exception.__init__(self, 'Error in script')
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -48,9 +48,9 @@ class JavaHandler(tornado.websocket.WebSocketHandler):
         return stdout, stderr
 
     def on_message(self, message):
-        self.sessid = message[0:41]
-        message = message[41:]
-        f = open(self.sessid, 'w')
+        self.sessid = message[0:40]
+        message = message[40:]
+        f = open(self.sessid + '.java', 'w')
         f.write(message)
         print((self.call(['java', 'javaFiddleUtils', self.sessid])))
         out, err = self.call(['java', self.sessid])
@@ -63,8 +63,8 @@ class PyHandler(tornado.websocket.WebSocketHandler):
         print(("Python user connected"))
 
     def on_message(self, message):
-        self.sessid = message[0:41]
-        message = message[41:]
+        self.sessid = message[0:40]
+        message = message[40:]
         out = None
         err = None
         sys.stdout = out
