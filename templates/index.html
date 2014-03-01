@@ -6,47 +6,57 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<link href="style.css" type="text/css" rel="stylesheet">
 	</head>
-<body>
+	<body>
+		<!-- BEGIN HEADER -->
+		<header> 
+			<h1> Java Fiddle  </h1>
+		</header>
+		<!-- END HEADER -->
 
-<!-- BEGIN HEADER -->
-	<header> </header>
-<!-- END HEADER -->
 
-<!-- BEGIN Title of Page -->
-	<h1> Java Fiddle  </h1>
-<!-- End of Title Page -->
+<pre id="editor">public class newProgram {
 
-<pre id="editor">
-public class newProgram {
-    
-    public static void main (String [] args){
-    
-    }
-    
-}
-</pre>
+	public static void main (String [] args){
+
+	}
+
+}</pre>
 
 		<div id="Output">
+			<p id="OutputContent">
+			
+			</p>
 		</div>
-
-		<input id="compile" type="button" onClick="writeComment()" value="Compile" \>
-		<input type="button" id="cancel" value="Cancel" \>
-    
-<script src="../static/src/ace.js" type="text/javascript" charset="utf-8"></script>
-<script>
-    var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/github");
-    editor.getSession().setMode("ace/mode/java");
-</script>
-<script>
-function writeComment(e) {
-    var code = editor.getValue();
-    document.getElementById('Output').innerHTML = code;
-    e.preventDefault();
-    return false;
-}
-</script>
-
-</body>
+		<input type="button" id="compile" value="Compile" onClick="writeConsole()" \>
+		
+		<input type="button" id="cancel" value="Cancel" onClick="clearConsole()"\>
+		
+		<script src="../static/src/ace.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			var editor = ace.edit("editor");
+			editor.setTheme("ace/theme/github");
+			editor.getSession().setMode("ace/mode/java");
+		</script>
+		<script>
+			function writeConsole(e) {
+				var code = editor.getValue();
+				document.getElementById('OutputContent').innerHTML = code;
+				e.preventDefault();
+				return false;
+			}
+		</script>
+		<script>
+			function clearConsole(e) {
+				document.getElementById('OutputContent').innerHTML = "";
+				e.preventDefault();
+				return false;
+			}
+		</script>
+	<footer>
+		<p>
+            <a href="https://github.com/dkothari777/Hackathon2014">Java Fiddle GitHub</a>
+        </p>
+	</footer>
+	</body>
 
 </html>

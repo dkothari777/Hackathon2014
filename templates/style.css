@@ -1,48 +1,80 @@
+@import url('http://fonts.googleapis.com/css?family=Open+Sans');
 
-    html, body {
-        overflow: hidden;
-		height: 100%;
-        width: 100%;
-        font-family:"Times New Roman", Times, serif;
-    }
-    h1{
-    border-style: solid;
-    background-color: white;
-    border-radius: 7px;
-    display: inline-block;
-    margin-left: 15px;
+html, body {
+	background-color:#F3F3F3;
+	height: 100%;
+	width: 100%;
+	font-family:"Times New Roman", Times, serif;
 }
-    
-    .ace_editor {
-		float:left;
-        border: 1px solid lightgray;
-        margin: auto;
-        height: 80%;
-        width: 50%;
-        margin-right: 15px;
-    }
-	
-	#Output {
-        float: left;
-        margin-left: 15px;
-        border: 1px solid black;
-        height: 80%;
-        width: 45%;
 
-	}
-	
-	#compile {
-		float:left;
-        margin: auto;
-		height: 30px;
-		width: 100px;
-        clear:both;
-
-	}
-    #cancel{
-        margin-left: 5%;
-        float: left;
-        margin: auto;
-        height: 30px;
-        width: 100px;
+body a {
+	color:#336699;
+	text-decoration:none;
 }
+
+body a:hover {
+	text-decoration:underline
+}
+
+header{
+	font-family:'Open Sans', sans-serif;
+	letter-spacing: -1px;
+	text-align: center;
+}
+
+.ace_editor {
+	float:left;
+	border: 1px solid lightgray;
+	margin: auto;
+	height: 70%;
+	width: 50%;
+	margin-right: 15px;
+}
+
+#Output {
+	float: left;
+	margin-left: 15px;
+	border: 1px solid black;
+	height: 70%;
+	width: 45%;
+	word-wrap: break-word;
+	overflow-y: auto;
+}
+
+#Output p{
+	padding-left:20px;
+	padding-right:15px;
+	word-wrap: break-word;
+}
+
+
+#compile {
+	float:left;
+	margin: auto;
+	height: 30px;
+	width: 100px;
+	clear:both;
+}
+
+#cancel{
+	margin-left: 5%;
+	float: left;
+	margin: auto;
+	height: 30px;
+	width: 100px;
+}
+
+input[type="button"], input[type="reset"] {
+    background: none 0 0 #CCCCCC;
+    border: medium none;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+footer{ 
+	text-align:center;
+	margin:5px;
+	padding:5px;
+	clear:both;
+}
+
