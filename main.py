@@ -47,16 +47,19 @@ class SocketHandler(tornado.websocket.WebSocketHandler):
         return stdout, stderr
 
     def on_message(self, message):
-        this.sessid = message[0:41]
-        snip = message[41:]
-        f = open(this.sessid, 'w')
+        self.sessid = message[0:41]
+        message = message[41:]
+        f = open(self.sessid, 'w')
         f.write(message)
-        call(['java','javaFiddleUtils',this.sessid])
+        self.call(['java', 'javaFiddleUtils', self.sessid])
 
 
 class HomeHandler(BaseHandler):
     def get(self):
-        self.render("index.html")
+        if self.get_current_user() is not None:
+            self.render("index.html")
+        else:
+            self.redirect("/auth/login")
 
 
 class AuthLoginHandler(BaseHandler):
@@ -70,9 +73,11 @@ class AuthLoginHandler(BaseHandler):
 
 class AuthLogoutHandler(BaseHandler):
     def get(self):
-        self.clear_secure_cookie()
-        subprocess.call(['rm','-rf',sessid + '.java'])
-        subprocess.call(['rm','-rf',sessid + '.class'])
+        self.clear_all_cookies()
+        subprocess.call(['rm', '-rf', self.get_current_user() + '.java'])
+        subprocess.call(['rm', '-rf', self.get_current_user() + '.class'])
+        self.write("logout successful")
+
 
 def main():
     testServer = tornado.web.Application(
@@ -85,7 +90,6 @@ def main():
         title="Scoring Server",
         template_path=os.path.join(os.path.dirname(__file__), "templates"),
         static_path=os.path.join(os.path.dirname(__file__), "static"),
-        ui_modules={"menu":MenuModule},
         xsrf_cookies=True,
         cookie_secret="testbed",  #TODO: Generate Random value
         login_url="/auth/login",
