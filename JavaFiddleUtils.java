@@ -101,7 +101,8 @@ public class JavaFiddleUtils {
 			FileWriter writer = new FileWriter( destinationFile );
 			
 			//Write the file header and main function
-			writer.write( "public class " + sessionID + " {\n" );
+			String name = removeDirectories(sessionID);
+			writer.write( "public class " + name + " {\n" );
 			writer.write( "public static void main( String[] args ) {\n" );
 			
 			//Write the snippet
@@ -132,8 +133,19 @@ public class JavaFiddleUtils {
 	 * Executes the java file and outputs it to a file
 	 */
 	private static void executeJava( String sourceFileName ) {
-		String javaCommand = "java " + sourceFileName + " > " + 
+		String name = removeDirectories(sourceFileName);
+		String javaCommand = "java -classpath tmp/ " + name + " > " + 
 			sourceFileName + ".output.txt";
 		executeShellCommand( javaCommand, sourceFileName + ".out.txt" );
+	}
+
+	private static String removeDirectories( String name ) {
+		for(int i= name.length()-1; i>0; i--){
+			if(name.charAt(i)==('/')){
+				name = name.substring(i+1, name.length());
+				return name;
+			}
+		}
+		return name;
 	}
 }
