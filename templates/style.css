@@ -50,26 +50,29 @@ header{
 
 #compile {
 	float:left;
-	margin: auto;
+	margin-left: 0px;
+	margin-top: 10px;
 	height: 30px;
 	width: 100px;
+	background: none 0 0 #CCCCCC;
+    	border: medium none;
+    	cursor: pointer;
+    	text-transform: uppercase;
 	clear:both;
 }
 
 #cancel{
-	margin-left: 5%;
+	margin-left: 15px;
+	margin-top: 10px;
 	float: left;
-	margin: auto;
 	height: 30px;
 	width: 100px;
+	background: none 0 0 #CCCCCC;
+    	border: medium none;
+        cursor: pointer;
+        text-transform: uppercase;
 }
 
-input[type="button"], input[type="reset"] {
-    background: none 0 0 #CCCCCC;
-    border: medium none;
-    cursor: pointer;
-    text-transform: uppercase;
-}
 
 footer{ 
 	text-align:center;
