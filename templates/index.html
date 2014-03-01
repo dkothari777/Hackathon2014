@@ -6,6 +6,7 @@
 		<title> Java Fiddle </title> 
 		<meta charset="UTF-8" />
 		<meta name="description" content="This is a practice file for day 6." />
+		<link href="style.css" rel="stylesheet" type="text/css">
 	</head>
 <body>
 <!-- BEGIN HEADER -->
@@ -18,20 +19,23 @@
 
 <!-- Input Area -->
 	<form>
-		<textarea id="java input stuff" rows="25" cols="100" attribute="wrap">
+		<textarea id="java_input_stuff" rows="25" cols="100" attribute="wrap">
 //CODE GOES HERE
 		</textarea>
 		<fieldset>
 		<legend> Output </legend>
 		<div id="Output">
-			<div>
+		<div>
 		</fieldset>
 	</form>
 	<form>
-	<input id="compile" type="submit" value="Compile"/> 
-	<input id="cancel" type="submit" value="Cancel" />
+		<input id="compile" type="submit" value="Compile"/> 
 	</form>
-    <a href="/auth/logout">Logout</a>
+	
+	<form action="/auth/logout" method="get">
+		<input id="cancel" type="submit" value="Cancel" />
+	</form>
+    
 <!-- END of Input Area -->
 
 </body>

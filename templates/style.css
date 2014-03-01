@@ -1,0 +1,46 @@
+
+
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font-family:"Times New Roman", Times, serif;
+}
+
+
+h1{
+	border-style: solid;
+	
+	border-radius: 7px;
+	float: left;
+	
+	
+}
+#java_input_stuff{
+	background-color: #00ffcc;
+	float:left;
+	overflow:hidden;
+}
+
+#Output{
+	background-color: #00ff00;
+	height: 370px;
+	
+	float:left;
+}
+
+#compile{
+	float:left;
+	clear:left;
+	border: 2px solid #dadada;
+    border-radius: 7px;
+}
+
+#cancel{
+	float:left;
+	border: 2px solid #dadada;
+    border-radius: 7px;
+
+}
+
