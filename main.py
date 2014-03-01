@@ -30,22 +30,14 @@ class BaseHandler(tornado.web.RequestHandler):
         return user_id
 
 
-class ScriptException(Exception):
-    def __init__(self, returncode, stdout, stderr, script):
-        self.returncode = returncode
-        self.stdout = stdout
-        self.stderr = stderr
-        Exception.__init__('Error in script')
-
-
 @tornado.web.authenticated
 class SocketHandler(tornado.websocket.WebSocketHandler):
     def open(self):
         print(("User " + self.get_current_user + " connected"))
 
+    #Usage: command is an list
     def call(self, command):
         # Spaces cause errors!
-        command = command.split[" "]
         proc = subprocess.Popen(command,
             stdout=subprocess.PIPE, stderr=subprocess.PIPE,
             stdin=subprocess.PIPE)
@@ -53,6 +45,13 @@ class SocketHandler(tornado.websocket.WebSocketHandler):
         if proc.returncode:
             raise ScriptException(proc.returncode, stdout, stderr, command)
         return stdout, stderr
+
+    def on_message(self, message):
+        this.sessid = message[0:41]
+        snip = message[41:]
+        f = open(this.sessid, 'w')
+        f.write(message)
+        call(['java','javaFiddleUtils',this.sessid])
 
 
 class HomeHandler(BaseHandler):
@@ -78,6 +77,7 @@ def main():
             (r"/", HomeHandler),
             (r"/auth/login", AuthLoginHandler),
             (r"/auth/logout", AuthLogoutHandler),
+            (r"/server", SocketHandler)
         ],
         title="Scoring Server",
         template_path=os.path.join(os.path.dirname(__file__), "templates"),
