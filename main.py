@@ -12,6 +12,7 @@ import sys
 
 from tornado.options import define, options, parse_command_line
 
+
 define("port", 8080)
 
 
@@ -87,6 +88,7 @@ class AuthLoginHandler(BaseHandler):
         h.update(str(random.random()))
         self.sessid = h.hexdigest()
         self.set_secure_cookie("sessid", self.sessid)
+        self.set_cookie("plainssid", self.sessid)
         self.redirect("/")
 
 
