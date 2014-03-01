@@ -8,6 +8,7 @@ import tornado.web
 import tornado.websocket
 import subprocess
 import os.path
+import sys
 
 from tornado.options import define, options, parse_command_line
 
@@ -30,10 +31,9 @@ class BaseHandler(tornado.web.RequestHandler):
         return user_id
 
 
-@tornado.web.authenticated
-class SocketHandler(tornado.websocket.WebSocketHandler):
+class JavaHandler(tornado.websocket.WebSocketHandler):
     def open(self):
-        print(("User " + self.get_current_user + " connected"))
+        print(("Java user connected"))
 
     #Usage: command is an list
     def call(self, command):
@@ -51,7 +51,26 @@ class SocketHandler(tornado.websocket.WebSocketHandler):
         message = message[41:]
         f = open(self.sessid, 'w')
         f.write(message)
-        self.call(['java', 'javaFiddleUtils', self.sessid])
+        print((self.call(['java', 'javaFiddleUtils', self.sessid])))
+        out, err = self.call(['java', self.sessid])
+        print (err)
+        self.write_message(out)
+
+
+class PyHandler(tornado.websocket.WebSocketHandler):
+    def open(self):
+        print(("Python user connected"))
+
+    def on_message(self, message):
+        self.sessid = message[0:41]
+        message = message[41:]
+        out = None
+        err = None
+        sys.stdout = out
+        sys.stderr = err
+        exec(message)
+        print(err)
+        self.write_message(out)
 
 
 class HomeHandler(BaseHandler):
@@ -85,7 +104,8 @@ def main():
             (r"/", HomeHandler),
             (r"/auth/login", AuthLoginHandler),
             (r"/auth/logout", AuthLogoutHandler),
-            (r"/server", SocketHandler)
+            (r"/java", JavaHandler),
+            (r"/python", PyHandler)
         ],
         title="Scoring Server",
         template_path=os.path.join(os.path.dirname(__file__), "templates"),
