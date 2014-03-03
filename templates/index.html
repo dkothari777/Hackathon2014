@@ -36,26 +36,13 @@
         </script>
         <script>
             var socket = new WebSocket("ws://localhost:8080/java");
-            
-            function getCookie(cname)
-            {
-            var name = cname + "=";
-            var ca = document.cookie.split(';');
-            for(var i=0; i<ca.length; i++) 
-              {
-              var c = ca[i].trim();
-              if (c.indexOf(name)==0) return c.substring(name.length,c.length);
-              }
-            return "";
-            }
 
             function clearConsole(e) {
                 socket.close();
             }
 
             function sendData() {
-                cookieData = getCookie( "plainssid" );
-                socket.send( cookieData + " " + editor.getValue() );
+                socket.send( "{{this.get_current_user()}}" + " " + editor.getValue() );
             }
 
             socket.onclose = function(){

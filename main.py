@@ -77,12 +77,12 @@ class PyHandler(tornado.websocket.WebSocketHandler):
 
 class HomeHandler(BaseHandler):
     def get(self):
-        try:
-            code = open('tmp/A'+self.get_current_user()+'.tmp').read()
-        except IOError, e:
-            code = 'System.out.print("Hello, World!");'
         if self.get_current_user() is not None:
-            self.render("index.html", code = code)
+            try:
+                code = open('tmp/A'+self.get_current_user()+'.tmp').read()
+            except IOError, e:
+                code = 'System.out.print("Hello, World!");'
+            self.render("index.html", code = code, this = self)
         else:
             self.redirect("/auth/login")
 
