@@ -55,8 +55,15 @@ class JavaHandler(tornado.websocket.WebSocketHandler):
         output = subprocess.PIPE
         err = subprocess.PIPE
         print 'cd ./tmp; javac '+self.sessid+'.java'
-        r1 = subprocess.check_output('cd ./tmp; javac '+self.sessid+'.java', shell=True)
-        r2 = subprocess.check_output('cd ./tmp; java '+self.sessid, shell=True)
+        try:
+            r2 = subprocess.check_output('cd ./tmp; javac '+self.sessid+'.java', shell=True)
+        except:
+            self.write_message("Compile error")
+            return None
+        try:
+            r2 = subprocess.check_output('cd ./tmp; java '+self.sessid, shell=True)
+        except:
+            r2 = "Runtime error"
         print r2
         self.write_message(r2)
 
@@ -101,6 +108,7 @@ class AuthLogoutHandler(BaseHandler):
         self.clear_all_cookies()
         subprocess.call(['rm', '-rf',
             "tmp/" + self.get_current_user() + '*'])
+        self.write("Logout successful. <a href='/'>Back to home</a>")
 
 
 class ParseHandler(BaseHandler):

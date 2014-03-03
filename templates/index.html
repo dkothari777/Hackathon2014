@@ -38,7 +38,7 @@
             var socket = new WebSocket("ws://localhost:8080/java");
 
             function clearConsole(e) {
-                socket.close();
+                window.location = '/auth/logout'
             }
 
             function sendData() {
