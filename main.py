@@ -27,7 +27,7 @@ class ScriptException(Exception):
 
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
-        user_id = self.get_secure_cookie("sessid")
+        user_id = self.get_cookie("plainssid")
         if not user_id:
             return None
         return user_id
@@ -42,8 +42,13 @@ class JavaHandler(tornado.websocket.WebSocketHandler):
         message = message[40:]
         print((self.sessid))
         print(message)
+        f = open('tmp/' + self.sessid + '.tmp', 'w+')
+        f.write(message)
+        f.close()
         f = open('tmp/' + self.sessid + '.java', 'w+')
-        f.write("public class " + self.sessid + " {\npublic static void main( String[] args ) {\n"+message+"}\n}")
+        f.write("public class " + self.sessid +
+            " {\npublic static void main( String[] args ) {\n"+open('tmp/'+
+                self.sessid+'.tmp').read()+"}\n}")
         f.close()
         print f
         print "Running JavaFiddleUtils"
@@ -57,10 +62,6 @@ class JavaHandler(tornado.websocket.WebSocketHandler):
 
     def on_close(self):
         print "User is done"
-        subprocess.call(['rm', '-rf',
-            "tmp/" + self.sessid + '.java'])
-        subprocess.call(['rm', '-rf',
-            "tmp/" + self.sessid + '.class'])
 
 
 class PyHandler(tornado.websocket.WebSocketHandler):
@@ -76,8 +77,12 @@ class PyHandler(tornado.websocket.WebSocketHandler):
 
 class HomeHandler(BaseHandler):
     def get(self):
+        try:
+            code = open('tmp/A'+self.get_current_user()+'.tmp').read()
+        except IOError, e:
+            code = 'System.out.print("Hello, World!");'
         if self.get_current_user() is not None:
-            self.render("index.html")
+            self.render("index.html", code = code)
         else:
             self.redirect("/auth/login")
 
@@ -87,7 +92,6 @@ class AuthLoginHandler(BaseHandler):
         h = hashlib.new('sha1')
         h.update(str(random.random()))
         self.sessid = h.hexdigest()
-        self.set_secure_cookie("sessid", self.sessid)
         self.set_cookie("plainssid", self.sessid)
         self.redirect("/")
 
@@ -96,10 +100,7 @@ class AuthLogoutHandler(BaseHandler):
     def get(self):
         self.clear_all_cookies()
         subprocess.call(['rm', '-rf',
-            "tmp/" + self.get_current_user() + '.java'])
-        subprocess.call(['rm', '-rf',
-            "tmp/" + self.get_current_user() + '.class'])
-        self.write("logout successful")
+            "tmp/" + self.get_current_user() + '*'])
 
 
 class ParseHandler(BaseHandler):
